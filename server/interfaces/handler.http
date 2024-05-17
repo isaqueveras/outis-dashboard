@@ -1,0 +1,5 @@
+GET http://localhost:8181/v1/routines
+
+###
+
+GET http://localhost:8181/v1/watcher/84cbfa32-cfa2-4f75-99d6-5423eca60985
