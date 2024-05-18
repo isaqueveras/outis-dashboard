@@ -1,3 +1,3 @@
-# outis-dashboard
+# outis dashboard
 
-![image](https://github.com/isaqueveras/outis-dashboard/assets/46972789/e7e58519-3799-46eb-8117-b948b6f10ed6)
+![image](https://github.com/isaqueveras/outis-dashboard/assets/46972789/e7ddd298-4843-4bc6-8401-b01b71e385f9)
