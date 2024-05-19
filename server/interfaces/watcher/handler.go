@@ -1,4 +1,4 @@
-package interfaces
+package watcher
 
 import (
 	"net/http"
