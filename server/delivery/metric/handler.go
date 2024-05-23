@@ -8,6 +8,13 @@ import (
 )
 
 func save(ctx *gin.Context) {
-	metric.Save(ctx.Copy())
+	in := &metric.Metric{}
+	if err := ctx.BindJSON(in); err != nil {
+		ctx.JSON(http.StatusBadRequest, map[string]string{"msg": err.Error()})
+		return
+	}
+
+	go metric.Save(ctx.Copy(), in)
+
 	ctx.JSON(http.StatusNoContent, nil)
 }

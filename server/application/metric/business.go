@@ -5,9 +5,10 @@ import (
 	"fmt"
 
 	"github.com/isaqueveras/outis-dashboard/server/database"
+	"github.com/isaqueveras/outis-dashboard/server/infrastructure/metric"
 )
 
-func Save(ctx context.Context) {
+func Save(ctx context.Context, in *Metric) {
 	tx, err := database.NewTx(ctx)
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
@@ -15,13 +16,20 @@ func Save(ctx context.Context) {
 	}
 	defer tx.Rollback()
 
-	var id *string
-	if err := tx.QueryRow(`SELECT "name" FROM t_watcher WHERE id = '86f72420-3d80-4237-8cee-9d3006eb4be7'`).Scan(&id); err != nil {
+	repo := metric.New(tx)
+
+	watcher, err := repo.ObtainWatcher(in.Watcher.Id)
+	if err != nil {
 		fmt.Printf("err: %v\n", err)
 		return
 	}
 
-	fmt.Printf("id: %v\n", *id)
+	if watcher == nil {
+		if err := repo.SaveWatcher(in.Watcher.Id, in.Watcher.Name); err != nil {
+			fmt.Printf("err: %v\n", err)
+			return
+		}
+	}
 
 	if err = tx.Commit(); err != nil {
 		fmt.Printf("err: %v\n", err)
