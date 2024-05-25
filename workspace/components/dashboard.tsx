@@ -105,15 +105,15 @@ export default function Dashboard({ watcher, isLoading }: any) {
 
       <Container maxW='8xl' textColor={'white'} pb={7} mt={7}>
         <Grid templateColumns='repeat(4, 1fr)' gap={4}>
-          <GridItem colSpan={4} bg='#1f1e1e' p={7}>
+          {/* <GridItem colSpan={4} bg='#1f1e1e' p={7}>
             <Text>Voltar</Text>
-          </GridItem>
+          </GridItem> */}
 
-          <GridItem rowSpan={10} colSpan={1} bg={'#1f1e1e'} p={7} maxH={'950px'}>
+          {/* <GridItem rowSpan={10} colSpan={1} bg={'#1f1e1e'} p={7} maxH={'950px'}>
             <Heading fontSize={'20px'} mb={3}>{watcher?.name}</Heading>
             <Text textColor={'gray'}>{watcher?.desc}</Text>
 
-            {/* <Input placeholder='Search routine' mt={3} variant='unstyled' size='lg' /> */}
+            <Input placeholder='Search routine' mt={3} variant='unstyled' size='lg' />
             <Box borderBottom={'1px solid #262525'} mt={4} />
 
             <Box overflow={'auto'} maxH={'800px'}>
@@ -133,29 +133,29 @@ export default function Dashboard({ watcher, isLoading }: any) {
                 </Box>
               ))}
             </Box>
-          </GridItem>
+          </GridItem> */}
 
-          <GridItem colSpan={3} bg='#1f1e1e'>
+          <GridItem colSpan={4} bg='#1f1e1e'>
             <Progress isAnimated={true} size='xs' colorScheme='whiteAlpha' bg={'#1f1e1e'} isIndeterminate={isLoading} />
-            <RoutineDetails />
+            <RoutineDetails isLoading={isLoading} />
 
             <Box borderTop={'1px solid #262525'} p={7}>
               <Box display={'flex'} justifyContent={'space-between'}>
                 <Box>
-                  <Text fontSize={13} textColor={'gray'}>Identifier</Text>
-                  <Text fontSize={15} textColor={'whiteAlpha.800'}>3de4e5aa</Text>
-                </Box>
-                <Box>
-                  <Text fontSize={13} textColor={'gray'}>Created in</Text>
-                  <Text fontSize={15} textColor={'whiteAlpha.800'}>02/05/2021</Text>
+                  <Text fontSize={13} textColor={'gray'}>Created at</Text>
+                  <Text fontSize={15} textColor={'whiteAlpha.800'}>02/05/2024 13:24</Text>
                 </Box>
                 <Box>
                   <Text fontSize={13} textColor={'gray'}>Last run</Text>
-                  <Text fontSize={15} textColor={'whiteAlpha.800'}>Today 13:24</Text>
+                  <Text fontSize={15} textColor={'whiteAlpha.800'}>02/05/2024 13:24</Text>
                 </Box>
                 <Box>
                   <Text fontSize={13} textColor={'gray'}>Interval</Text>
-                  <Text fontSize={15} textColor={'whiteAlpha.800'}>2m (20m)</Text>
+                  <Text fontSize={15} textColor={'whiteAlpha.800'}>2 minute</Text>
+                </Box>
+                <Box>
+                  <Text fontSize={13} textColor={'gray'}>Load interval</Text>
+                  <Text fontSize={15} textColor={'whiteAlpha.800'}>15 days</Text>
                 </Box>
                 <Box>
                   <Text fontSize={13} textColor={'gray'}>Hours</Text>
@@ -169,8 +169,8 @@ export default function Dashboard({ watcher, isLoading }: any) {
             </Box>
           </GridItem>
 
-          <GridItem colSpan={3}>
-            <Grid templateColumns='repeat(4, 1fr)' gap={4}>
+          <GridItem colSpan={4}>
+            <Grid templateColumns='repeat(5, 1fr)' gap={4}>
               <GridItem colSpan={1} bg='#1f1e1e' p={7}>
                 <Indicator name={'Total requests'} desc={'Overall sum of count'} value={123} />
               </GridItem>
@@ -183,14 +183,24 @@ export default function Dashboard({ watcher, isLoading }: any) {
               <GridItem colSpan={1} bg='#1f1e1e' p={7}>
                 <Indicator name={'Error percentage'} desc={'Overall error percentage'} value={"0.2%"} />
               </GridItem>
+              <GridItem colSpan={1} bg='#1f1e1e' p={7}>
+                <Indicator name={'Error percentage'} desc={'Overall error percentage'} value={"0.2%"} />
+              </GridItem>
             </Grid>
           </GridItem>
 
-          <GridItem colSpan={3} bg='#1f1e1e' p={7}>
+          <GridItem colSpan={2} bg='#1f1e1e' p={7}>
             <Text>Grafico geral com todas as rotinas aqui</Text>
             <Text textColor={'gray'}>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Text>
             <Box mt={5}>
-              <Line options={options} data={data} height={60} />
+              <Line options={options} data={data} height={80} />
+            </Box>
+          </GridItem>
+          <GridItem colSpan={2} bg='#1f1e1e' p={7}>
+            <Text>Grafico geral com todas as rotinas aqui</Text>
+            <Text textColor={'gray'}>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Text>
+            <Box mt={5}>
+              <Line options={options} data={data} height={80} />
             </Box>
           </GridItem>
 
@@ -237,7 +247,7 @@ export default function Dashboard({ watcher, isLoading }: any) {
             </DrawerContent>
           </Drawer>
 
-          <GridItem colSpan={3} bg='#1f1e1e' p={7}>
+          <GridItem colSpan={4} bg='#1f1e1e' p={7}>
             <TableContainer>
               <Table variant={'striped'} colorScheme={'blackAlpha'}>
                 <Thead>

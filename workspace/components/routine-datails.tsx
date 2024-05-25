@@ -1,7 +1,7 @@
 import { useFetch } from "@/app/hooks/useFetch"
-import { Badge, Box, Heading, Stack, Text } from "@chakra-ui/react"
+import { Badge, Box, Heading, Skeleton, Stack, Text } from "@chakra-ui/react"
 
-const RoutineDetails: React.FC = () => {
+const RoutineDetails = ({ isLoading }: any) => {
   const { data, error } = useFetch('/api/watcher/84cbfa32/routine/84cbfa31')
   if (error) return <div>falhou ao carregar</div>
 
@@ -10,7 +10,9 @@ const RoutineDetails: React.FC = () => {
   return (
     <Stack align='center' justifyContent={'space-between'} alignItems={'start'} direction='row' p={7}>
       <Box>
-        <Heading fontSize={'20px'} mb={1}>{data?.name}</Heading>
+        <Skeleton mb={1} isLoaded={!isLoading}>
+          <Heading fontSize={'20px'} mb={1}>{data?.name}</Heading>
+        </Skeleton>
         <Text textColor={'gray'}>{data?.desc}</Text>
       </Box>
       <Box>
