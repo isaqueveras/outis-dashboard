@@ -1,59 +1,62 @@
--- DROP TABLE IF EXISTS t_watcher, t_routine, t_routine_execution, t_routine_log, t_routine_indicator;
+-- DROP TABLE IF EXISTS t_watcher, t_routine, t_execution, t_log, t_indicator, t_histogram CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE t_watcher (
 	"id" UUID PRIMARY KEY,
-	"name" TEXT NOT NULL CHECK (CHAR_LENGTH("name") > 10 AND CHAR_LENGTH("name") <= 150) UNIQUE,
-	"last_run" TIMESTAMP NOT NULL,
-	"created_at" TIMESTAMP NOT NULL
+	"name" TEXT NOT NULL CHECK (CHAR_LENGTH("name") <= 150) UNIQUE,
+	"run" TIMESTAMPTZ,
+	"created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE t_routine (
 	"id" UUID PRIMARY KEY,
   "id_watcher" UUID NOT NULL REFERENCES t_watcher (id),
-	"name" TEXT NOT NULL CHECK (CHAR_LENGTH("name") > 10 AND CHAR_LENGTH("name") <= 150) UNIQUE,
-	"desc" VARCHAR,
-	"state" VARCHAR NOT NULL,
+	"name" TEXT NOT NULL CHECK (CHAR_LENGTH("name") <= 150) UNIQUE,
+	"desc" VARCHAR CHECK (CHAR_LENGTH("desc") <= 200),
+	-- "state" VARCHAR,
+  "path" VARCHAR NOT NULL,
   "interval" INTEGER NOT NULL,
 	"load_interval" INTEGER,
-	"start_hour" INTEGER,
-	"end_time" INTEGER,
-	"last_run" TIMESTAMP,
-	"updated_at" TIMESTAMP NOT NULL,
-	"created_at" TIMESTAMP NOT NULL
+	"start" INTEGER,
+	"end" INTEGER,
+	"run" TIMESTAMPTZ,
+	"updated_at" TIMESTAMPTZ,
+	"created_at" TIMESTAMPTZ NOT NULL
 );
 
-CREATE TABLE t_routine_execution (
-	"id" UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+CREATE TABLE t_execution (
+	"id" UUID PRIMARY KEY NOT NULL,
   "id_routine" UUID NOT NULL REFERENCES t_routine (id),
 	"latency" FLOAT NOT NULL,
   "metadata" JSONB,
-	"start" TIMESTAMP NOT NULL,
-	"end" TIMESTAMP NOT NULL
+	"start" TIMESTAMPTZ NOT NULL,
+	"end" TIMESTAMPTZ NOT NULL
 );
 
-CREATE TABLE t_routine_indicator (
-  "id_routine_execution" UUID NOT NULL REFERENCES t_routine_execution (id),
+CREATE TABLE t_indicator (
+	"id" SERIAL PRIMARY KEY,
+  "id_routine_execution" UUID NOT NULL REFERENCES t_execution (id),
 	"key" TEXT NOT NULL,
 	"value" TEXT NOT NULL,
-	"created_at" TIMESTAMP NOT null DEFAULT NOW()
+	"created_at" TIMESTAMPTZ NOT null DEFAULT NOW()
 );
 
-CREATE TABLE t_routine_histogram (
-  "id_routine_execution" UUID NOT NULL REFERENCES t_routine_execution (id),
+CREATE TABLE t_histogram (
+	"id" SERIAL PRIMARY KEY,
+  "id_routine_execution" UUID NOT NULL REFERENCES t_execution (id),
 	"key" TEXT NOT NULL,
 	"value" TEXT NOT NULL,
-	"created_at" TIMESTAMP NOT null DEFAULT NOW()
+	"created_at" TIMESTAMPTZ NOT null DEFAULT NOW()
 );
 
-CREATE TABLE t_routine_log (
+CREATE TABLE t_log (
 	"id" UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  "id_routine_execution" UUID NOT NULL REFERENCES t_routine_execution (id),
+  "id_routine_execution" UUID NOT NULL REFERENCES t_execution (id),
   "level" VARCHAR NOT NULL,
 	"msg" VARCHAR NOT NULL,
-	"ts" TIMESTAMP NOT NULL,
-	"path" TIMESTAMP NOT NULL
+	"ts" TIMESTAMPTZ NOT NULL,
+	"path" TIMESTAMPTZ NOT NULL
 );
 
 -- DROP FUNCTION set_date_update();
