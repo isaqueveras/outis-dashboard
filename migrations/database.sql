@@ -38,7 +38,7 @@ CREATE TABLE t_indicator (
 	"id" SERIAL PRIMARY KEY,
   "id_routine_execution" UUID NOT NULL REFERENCES t_execution (id),
 	"key" TEXT NOT NULL,
-	"value" TEXT NOT NULL,
+	"value" FLOAT8 NOT NULL,
 	"created_at" TIMESTAMPTZ NOT null DEFAULT NOW()
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE t_histogram (
 	"id" SERIAL PRIMARY KEY,
   "id_routine_execution" UUID NOT NULL REFERENCES t_execution (id),
 	"key" TEXT NOT NULL,
-	"value" TEXT NOT NULL,
+	"value" FLOAT8 NOT NULL,
 	"created_at" TIMESTAMPTZ NOT null DEFAULT NOW()
 );
 
