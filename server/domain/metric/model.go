@@ -41,7 +41,7 @@ type Routine struct {
 
 type Indicator struct {
 	Key       string
-	Value     any
+	Value     float64
 	CreatedAt time.Time
 }
 
@@ -51,7 +51,7 @@ type Histogram struct {
 }
 
 type HistogramValue struct {
-	Value     any
+	Value     float64
 	CreatedAt time.Time
 }
 
