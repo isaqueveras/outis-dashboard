@@ -18,4 +18,6 @@ type IMetric interface {
 
 	WatcherExists(id uuid.UUID) (bool, error)
 	RoutineExists(id uuid.UUID) (bool, error)
+
+	SetIndicator(uuid.UUID, Indicator) error
 }

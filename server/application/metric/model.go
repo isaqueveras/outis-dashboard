@@ -40,7 +40,7 @@ type Routine struct {
 
 type Indicator struct {
 	Key       string    `json:"key"`
-	Value     any       `json:"value"`
+	Value     float64   `json:"value"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -50,7 +50,7 @@ type Histogram struct {
 }
 
 type HistogramValue struct {
-	Value     any       `json:"value"`
+	Value     float64   `json:"value"`
 	CreatedAt time.Time `json:"created_at"`
 }
 

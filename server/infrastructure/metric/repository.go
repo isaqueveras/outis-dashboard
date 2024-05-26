@@ -82,3 +82,10 @@ func (r *repository) UpdateRoutine(in metric.Routine) error {
 	_, err := r.db.Execute(updateRoutineSQL, in.Id, in.WatcherID, in.Name, in.Desc, in.Path, in.Interval, in.LoadInterval, in.Start, in.End, in.RunAt)
 	return err
 }
+
+const setIndicatorsql = `INSERT INTO t_indicator (id_routine_execution, "key", value) VALUES ($1, $2, $3)`
+
+func (r *repository) SetIndicator(routineExecutionID uuid.UUID, in metric.Indicator) error {
+	_, err := r.db.Execute(setIndicatorsql, routineExecutionID, in.Key, in.Value)
+	return err
+}

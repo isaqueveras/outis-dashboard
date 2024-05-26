@@ -9,31 +9,37 @@ import (
 	"github.com/isaqueveras/outis-dashboard/server/infrastructure/metric"
 )
 
-func Event(ctx context.Context, in *Metric) {
+func Event(ctx context.Context, in *Metric) (err error) {
+	defer func() {
+		if err != nil {
+			fmt.Printf("%v\n", err)
+			return
+		}
+	}()
+
 	tx, err := database.NewTx(ctx)
 	if err != nil {
-		fmt.Printf("%v\n", err)
 		return
 	}
 	defer tx.Rollback()
 
 	repo := metric.New(tx)
-	if err = repo.InsertMetadata(domain.Metric{
-		Id:         in.Id,
-		Latency:    in.Latency,
-		Metadata:   in.Metadata,
-		StartedAt:  in.StartedAt,
-		FinishedAt: in.FinishedAt,
-		RoutineID:  in.Routine.Id,
-	}); err != nil {
-		fmt.Printf("%v\n", err)
+	if err = repo.InsertMetadata(domain.Metric{Id: in.Id, Latency: in.Latency, Metadata: in.Metadata,
+		StartedAt: in.StartedAt, FinishedAt: in.FinishedAt, RoutineID: in.Routine.Id}); err != nil {
 		return
 	}
 
+	for _, indicator := range in.Indicators {
+		if err = repo.SetIndicator(in.Id, domain.Indicator(indicator)); err != nil {
+			return
+		}
+	}
+
 	if err = tx.Commit(); err != nil {
-		fmt.Printf("%v\n", err)
 		return
 	}
+
+	return nil
 }
 
 func Setup(ctx context.Context, in *SetupIn) {
