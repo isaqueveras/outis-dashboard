@@ -10,7 +10,7 @@ type Metric struct {
 	Id         uuid.UUID      `json:"id"`
 	StartedAt  time.Time      `json:"started_at"`
 	FinishedAt time.Time      `json:"finished_at"`
-	Latency    float64        `json:"latency"`
+	Latency    time.Duration  `json:"latency"`
 	Watcher    Watcher        `json:"watcher"`
 	Routine    Routine        `json:"routine"`
 	Metadata   map[string]any `json:"metadata"`

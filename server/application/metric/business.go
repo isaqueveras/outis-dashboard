@@ -18,17 +18,6 @@ func Event(ctx context.Context, in *Metric) {
 	defer tx.Rollback()
 
 	repo := metric.New(tx)
-
-	if err := repo.SetWatcher(in.Watcher.Id, in.Watcher.RunAt); err != nil {
-		fmt.Printf("%v\n", err)
-		return
-	}
-
-	if err = repo.SetRoutine(domain.Routine(in.Routine)); err != nil {
-		fmt.Printf("%v\n", err)
-		return
-	}
-
 	if err = repo.InsertMetadata(domain.Metric{
 		Id:         in.Id,
 		Latency:    in.Latency,
@@ -63,7 +52,7 @@ func Setup(ctx context.Context, in *SetupIn) {
 	}
 
 	if watcherExists {
-		if err := repo.SetWatcher(in.Watcher.Id, in.Watcher.RunAt); err != nil {
+		if err := repo.SetWatcher(domain.Watcher(in.Watcher)); err != nil {
 			fmt.Printf("%v\n", err)
 			return
 		}

@@ -10,7 +10,7 @@ type Metric struct {
 	Id         uuid.UUID
 	StartedAt  time.Time
 	FinishedAt time.Time
-	Latency    float64
+	Latency    time.Duration
 	Watcher    Watcher
 	Routine    Routine
 	RoutineID  uuid.UUID

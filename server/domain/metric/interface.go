@@ -1,13 +1,11 @@
 package metric
 
 import (
-	"time"
-
 	"github.com/google/uuid"
 )
 
 type IMetric interface {
-	SetWatcher(id uuid.UUID, startedAt time.Time) error
+	SetWatcher(Watcher) error
 	SetRoutine(Routine) error
 
 	InsertMetadata(Metric) error

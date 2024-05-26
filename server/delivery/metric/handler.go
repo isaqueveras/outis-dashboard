@@ -10,7 +10,7 @@ import (
 func event(ctx *gin.Context) {
 	in := &metric.Metric{}
 	if err := ctx.BindJSON(in); err != nil {
-		ctx.JSON(http.StatusBadRequest, map[string]string{"msg": err.Error()})
+		ctx.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
 		return
 	}
 
@@ -21,7 +21,7 @@ func event(ctx *gin.Context) {
 func setup(ctx *gin.Context) {
 	in := &metric.SetupIn{}
 	if err := ctx.BindJSON(in); err != nil {
-		ctx.JSON(http.StatusBadRequest, map[string]string{"msg": err.Error()})
+		ctx.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
 		return
 	}
 

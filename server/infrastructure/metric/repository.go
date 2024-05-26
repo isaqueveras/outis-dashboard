@@ -1,8 +1,6 @@
 package metric
 
 import (
-	"time"
-
 	"github.com/google/uuid"
 	"github.com/isaqueveras/outis-dashboard/server/database"
 	"github.com/isaqueveras/outis-dashboard/server/domain/metric"
@@ -16,10 +14,10 @@ func New(tx *database.Tx) metric.IMetric {
 	return &repository{db: tx}
 }
 
-const setWatcherSQL = "UPDATE t_watcher SET run = $1 WHERE id = $2"
+const setWatcherSQL = "UPDATE t_watcher SET run = $1, name = $2 WHERE id = $3"
 
-func (r *repository) SetWatcher(id uuid.UUID, startedAt time.Time) error {
-	_, err := r.db.Execute(setWatcherSQL, startedAt, id)
+func (r *repository) SetWatcher(in metric.Watcher) error {
+	_, err := r.db.Execute(setWatcherSQL, in.RunAt, in.Name, in.Id)
 	return err
 }
 
@@ -33,7 +31,7 @@ func (r *repository) SetRoutine(in metric.Routine) error {
 const insertExecutionMetadataSQL = `INSERT INTO t_execution (id, id_routine, latency, metadata, "start", "end") VALUES ($1, $2, $3, $4, $5, $6)`
 
 func (r *repository) InsertMetadata(in metric.Metric) error {
-	_, err := r.db.Execute(insertExecutionMetadataSQL, in.Id, in.RoutineID, in.Latency, in.Metadata, in.StartedAt, in.FinishedAt)
+	_, err := r.db.Execute(insertExecutionMetadataSQL, in.Id, in.RoutineID, in.Latency.Seconds(), in.Metadata, in.StartedAt, in.FinishedAt)
 	return err
 }
 
