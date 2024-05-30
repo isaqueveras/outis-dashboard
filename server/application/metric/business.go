@@ -35,6 +35,17 @@ func Event(ctx context.Context, in *Metric) (err error) {
 		}
 	}
 
+	for _, item := range in.Histograms {
+		values := []domain.HistogramValue{}
+		for idx := range item.Values {
+			values = append(values, domain.HistogramValue{Value: item.Values[idx].Value, CreatedAt: item.Values[idx].CreatedAt})
+		}
+
+		if err = repo.SetHistogram(in.Id, domain.Histogram{Key: item.Key, Values: values}); err != nil {
+			return
+		}
+	}
+
 	if err = tx.Commit(); err != nil {
 		return
 	}
