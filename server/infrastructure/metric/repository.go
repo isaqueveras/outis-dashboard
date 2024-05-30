@@ -83,9 +83,20 @@ func (r *repository) UpdateRoutine(in metric.Routine) error {
 	return err
 }
 
-const setIndicatorsql = `INSERT INTO t_indicator (id_routine_execution, "key", value) VALUES ($1, $2, $3)`
+const setIndicatorsql = `INSERT INTO public.t_indicator (id_routine_execution, "key", value, created_at) VALUES ($1, $2, $3, $4)`
 
 func (r *repository) SetIndicator(routineExecutionID uuid.UUID, in metric.Indicator) error {
-	_, err := r.db.Execute(setIndicatorsql, routineExecutionID, in.Key, in.Value)
+	_, err := r.db.Execute(setIndicatorsql, routineExecutionID, in.Key, in.Value, in.CreatedAt)
 	return err
+}
+
+const setHistogramSQL = `INSERT INTO public.t_histogram (id_routine_execution, "key", value, created_at) VALUES ($1, $2, $3, $4)`
+
+func (r *repository) SetHistogram(routineExecutionID uuid.UUID, in metric.Histogram) error {
+	for _, value := range in.Values {
+		if _, err := r.db.Execute(setHistogramSQL, routineExecutionID, in.Key, value.Value, value.CreatedAt); err != nil {
+			return err
+		}
+	}
+	return nil
 }

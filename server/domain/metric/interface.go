@@ -20,4 +20,5 @@ type IMetric interface {
 	RoutineExists(id uuid.UUID) (bool, error)
 
 	SetIndicator(uuid.UUID, Indicator) error
+	SetHistogram(uuid.UUID, Histogram) error
 }
