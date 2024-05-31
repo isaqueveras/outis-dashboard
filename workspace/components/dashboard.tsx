@@ -14,7 +14,6 @@ import {
   DrawerOverlay,
   Grid,
   GridItem,
-  Heading,
   Link,
   Progress,
   Table,
@@ -28,67 +27,10 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-} from 'chart.js'
-
 import { Line } from 'react-chartjs-2'
 import RoutineDetails from './routine-datails';
 import Indicator from './indicator';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend
-);
-
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: false,
-    },
-  },
-};
-
-const labels = ['1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h'];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      fill: true,
-      label: 'Hoje',
-      data: [0.233, 0.12313, 0.12313, 0.2342, 0.232, 0.12313, 0.12313, 1, .9089, 1.122, 0.123123, 0.12313, 0.12313, 0.214238, 0.1212134],
-      borderColor: 'rgb(245, 255, 140)',
-      backgroundColor: 'rgba(245, 255, 140, 0.5)',
-    },
-
-    {
-      fill: true,
-      label: 'Ontem',
-      data: [0.24234, 0.123123, .998798, 0.134234, 1.2313, 0.324, .998798, 0.134234, 0.34234, 1.213, .998798, 0.134234, 1.234, 0.234234, 0.3242],
-      borderColor: 'rgb(125, 128, 97)',
-      backgroundColor: 'rgba(125, 128, 97, 0.4)',
-    },
-  ],
-};
+import Histogram from './histogram';
 
 export default function Dashboard({ watcher, isLoading }: any) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -136,7 +78,7 @@ export default function Dashboard({ watcher, isLoading }: any) {
           </GridItem> */}
 
           <GridItem colSpan={4} bg='#1f1e1e'>
-            <Progress isAnimated={true} size='xs' colorScheme='whiteAlpha' bg={'#1f1e1e'} isIndeterminate={isLoading} />
+            <Progress isAnimated={true} size='sm' colorScheme='green' bg={'#1f1e1e'} isIndeterminate={isLoading} />
             <RoutineDetails isLoading={isLoading} />
 
             <Box borderTop={'1px solid #262525'} p={7}>
@@ -189,19 +131,8 @@ export default function Dashboard({ watcher, isLoading }: any) {
             </Grid>
           </GridItem>
 
-          <GridItem colSpan={2} bg='#1f1e1e' p={7}>
-            <Text>Grafico geral com todas as rotinas aqui</Text>
-            <Text textColor={'gray'}>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Text>
-            <Box mt={5}>
-              <Line options={options} data={data} height={80} />
-            </Box>
-          </GridItem>
-          <GridItem colSpan={2} bg='#1f1e1e' p={7}>
-            <Text>Grafico geral com todas as rotinas aqui</Text>
-            <Text textColor={'gray'}>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Text>
-            <Box mt={5}>
-              <Line options={options} data={data} height={80} />
-            </Box>
+          <GridItem colSpan={4} bg='#1f1e1e' p={7}>
+            <Histogram />
           </GridItem>
 
           <Drawer
