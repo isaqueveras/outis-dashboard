@@ -47,7 +47,7 @@ export const options = {
 
 
 const Histogram = () => {
-  const { data, error, isLoading, isValidating } = useFetch('/api/watcher/84cbfa32/routine/416e4b00-a8db-4b54-afbc-82de0016edf0/histogram')
+  const { data, error, isLoading } = useFetch('/api/watcher/84cbfa32/routine/416e4b00-a8db-4b54-afbc-82de0016edf0/histogram')
   if (error) return <div>falhou ao carregar</div>
   if (isLoading) return <div>carregando</div>
 
@@ -69,25 +69,6 @@ const Histogram = () => {
       }
     })
   }
-
-  console.log(datasets)
-
-  // var datasets = [{
-  //   fill: true,
-  //   label: '',
-  //   data: [],
-  //   borderColor: 'rgba(242, 136, 155, 0.7)',
-  //   pointRadius: 1,
-  //   pointHoverRadius: 2,
-  //   backgroundColor: (context: ScriptableContext<"line">) => {
-  //     const ctx = context.chart.ctx;
-  //     const gradient = ctx.createLinearGradient(0, 0, 0, 250);
-  //     gradient.addColorStop(0, "rgba(242, 136, 155, 0.45)");
-  //     gradient.addColorStop(1, "rgba(242, 136, 155, 0.0)");
-  //     return gradient;
-  //   }
-  // }]
-
 
   return (
     <Box>
